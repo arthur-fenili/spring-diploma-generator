@@ -88,4 +88,18 @@ public class DiplomadoController {
         return new ResponseEntity<>(diplomadoResponse, HttpStatus.OK);
     }
 
+    @Operation(summary = "Deleta um diplomado")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Diplomado deletado com sucesso"),
+            @ApiResponse(responseCode = "404", description = "Diplomado não encontrado")})
+    @DeleteMapping("/{id}")
+    public ResponseEntity<DiplomadoResponse> deleteDiplomado(@PathVariable Long id){
+        Optional<Diplomado> diplomado = diplomadoRepository.findById(id);
+        if (diplomado.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        diplomadoRepository.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
