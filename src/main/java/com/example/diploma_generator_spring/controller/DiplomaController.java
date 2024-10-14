@@ -2,6 +2,7 @@ package com.example.diploma_generator_spring.controller;
 
 import com.example.diploma_generator_spring.dto.DiplomaRequest;
 import com.example.diploma_generator_spring.dto.DiplomaResponse;
+import com.example.diploma_generator_spring.dto.DiplomaTextResponse;
 import com.example.diploma_generator_spring.model.Diploma;
 import com.example.diploma_generator_spring.repository.DiplomaRepository;
 import com.example.diploma_generator_spring.service.DiplomaMapper;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/diplomas")
@@ -101,9 +103,12 @@ public class DiplomaController {
             @ApiResponse(responseCode = "200", description = "Diploma encontrado"),
             @ApiResponse(responseCode = "404", description = "Diploma não encontrado")})
     @GetMapping("/all/{id}")
-    public ResponseEntity<DiplomaResponse> getDiplomaByIdAll(@PathVariable Long id) {
-        return diplomaRepository.findById(id)
-                .map(diploma -> ResponseEntity.ok(diplomaMapper.diplomaToResponse(diploma)))
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<DiplomaTextResponse> getDiplomaByIdAll(@PathVariable Long id) {
+        Optional<Diploma> diplomaSalvo = diplomaRepository.findById(id);
+        if (diplomaSalvo.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        DiplomaTextResponse diplomaResponse = diplomaMapper.diplomaTextResponse(diplomaSalvo.get());
+        return new ResponseEntity<>(diplomaResponse, HttpStatus.OK);
     }
 }

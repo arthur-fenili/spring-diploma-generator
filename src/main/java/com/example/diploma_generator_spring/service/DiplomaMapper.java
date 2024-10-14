@@ -56,7 +56,7 @@ public class DiplomaMapper {
             cargoReitor = "reitora";
         }
 
-        String diplomaText = String.format("O %s, %s da Universidade Fake, no uso de suas atribuições, confere a %s, de nacionalidade %s, natural de %s, portador do rg %s, o presente diploma de %s, do curso de %s, por ter concluído seus estudos nesta instituição de ensino no dia %s.",
+        String diplomaText = String.format("O %s, %s da Universidade Fake, no uso de suas atribuições, confere a %s, de nacionalidade %s, natural de %s, portador do RG %s, o presente diploma de %s, do curso de %s, por ter concluído seus estudos nesta instituição de ensino no dia %s.",
                 tituloReitor,
                 cargoReitor,
                 diploma.getDiplomado().getNome(),
